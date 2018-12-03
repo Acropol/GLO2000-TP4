@@ -1,14 +1,25 @@
 import argparse
 import socket
 import sys
+import os
 from datetime import datetime
 
 def auth(user, password):
-	print("on check le login")
+	if os.path.isdir(user):
+		print("User Found")
+		config = open(user + "/" + "config.txt", "r")
+		passwordBDD = config.readline()
+		if password == passwordBDD:
+			return True
 	return False
 
 def register(user, password):
-	print("on cree le user")
+	if os.path.isdir(user):
+		return False
+	os.mkdir(user, 755);
+	config = open(user + "/" + "config.txt", "w")
+	config.write(password)
+	config.close()
 	return True
 
 def checkInfo(login):

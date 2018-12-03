@@ -2,6 +2,7 @@ import socket
 import getpass
 import sys
 from hashlib import sha256
+import argparse
 
 def navigator(client_socket):
 	while True:
@@ -13,10 +14,10 @@ def navigator(client_socket):
 	while True:
 		client_socket.send(bytes(value, encoding= 'utf-8'))
 
-def runSock(flag):
+def runSock(flag, port):
 	try:
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		client_socket.connect(('localhost', 8080))
+		client_socket.connect(('localhost', port))
 	except socket.error as e:
 		print("Impossible de se connecter au serveur")
 		sys.exit(42)
@@ -33,6 +34,7 @@ def runSock(flag):
 		if data == "200":
 			print("Bonjour %s" %(user[0]))
 			break
+		print("Login Incorrect")
 	navigator(client_socket)
 
 
@@ -57,6 +59,9 @@ def AboutUser():
 	return login
 
 if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-p", "--port", action="store", dest="port", type=int, default=8080)
+	port = vars(parser.parse_args())["port"]
 	flag = 42
 	while flag != 1 and flag != 2:
 		displayMenu()
@@ -64,4 +69,4 @@ if __name__ == '__main__':
 			flag = int(input(''))
 		except Exception as ex:
 			flag = 42
-	runSock(flag)
+	runSock(flag, port)
