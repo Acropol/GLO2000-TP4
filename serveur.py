@@ -1,16 +1,21 @@
 import argparse
 import socket
 import sys
-
 from datetime import datetime
+
+def auth(user, password):
+	print("on check le login")
+
+def register(user, password):
+	print("on cree le user")
 
 def checkInfo(login):
 	login = login.decode("utf-8")
 	login = login.split(":")
 	if login[2] == "1":
-		print ("login")
+		auth(login[0], login[1])
 	else:
-		print ("register")
+		register(login[0], login[1])
 	return True
 
 def runServer(port):
@@ -21,7 +26,7 @@ def runServer(port):
 		sock.bind(server_address)
 		sock.listen(5)
 	except socket.error as e:
-		WriteErrorLog(str(e))
+		WriteLog(str(e))
 	while True:
 		print('waiting for a connection')
 		auth = 0
@@ -38,6 +43,7 @@ def runServer(port):
 			connection.send(bytes("200", encoding= 'utf-8'))
 			while(True):
 				data = connection.recv(1024)
+				print (data)
 		finally:
 			connection.close()
 
@@ -64,5 +70,5 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-p", "--port", action="store", dest="port", type=int, default=8080)
 	port = vars(parser.parse_args())["port"]
-
 	runServer(port)
+	sys.exit(0)

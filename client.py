@@ -8,8 +8,10 @@ def navigator(client_socket):
         DisplayMenuHeader()
         value = input('')
         if value in tab:
-            print("valeur ok")
             break
+    while True:
+        client_socket.send(bytes(value, encoding= 'utf-8'))
+
 def runSock(flag):
     import socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
