@@ -6,14 +6,21 @@ import argparse
 
 def navigator(client_socket):
 	while True:
-		tab = ['1', '2', '3', '4']
+		tab = ['1', '2', '3']
 		DisplayMenuHeader()
 		value = input('')
+		if value == '4':
+			client_socket.close()
+			sys.exit(0)
 		if value in tab:
 			break
 	while True:
-		client_socket.send(bytes(value, encoding= 'utf-8'))
-
+		print("ok")
+		try:
+			client_socket.send(bytes(value, encoding= 'utf-8'))
+		except:
+			sys.exit(0)
+		data = client_socket.recv(512)
 def runSock(flag, port):
 	try:
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

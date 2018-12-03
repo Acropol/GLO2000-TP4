@@ -7,8 +7,8 @@ from datetime import datetime
 def auth(user, password):
 	if os.path.isdir(user):
 		try:
-      		config = open(user + "/" + "config.txt", "r")
-    	except IOError:
+			config = open(user + "/" + "config.txt", "r")
+		except IOError:
 			return False
 		passwordBDD = config.readline()
 		if password == passwordBDD:
@@ -61,7 +61,15 @@ def runServer(port):
 			print("Utilisateur connecte")
 			connection.send(bytes("200", encoding= 'utf-8'))
 			while(True):
-				data = connection.recv(1024)
+				data = connection.recv(1024).decode("utf-8")
+				if data == '1':
+					print("ok")
+				elif data == '2':
+					print("ok2")
+				elif data == "3":
+					print("ok3")
+				else:
+					break
 				print (data)
 		finally:
 			connection.close()
