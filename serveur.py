@@ -36,6 +36,8 @@ def runServer(port):
 				auth = checkInfo(login)
 			print("Utilisateur connecte")
 			connection.send(bytes("200", encoding= 'utf-8'))
+			while(True):
+				data = connection.recv(1024)
 		finally:
 			connection.close()
 
