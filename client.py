@@ -1,7 +1,15 @@
 import socket
 import getpass
-from email.mime.text import MIMEText
+from hashlib import sha256
 
+def navigator(client_socket):
+    while True:
+        tab = ['1', '2', '3', '4']
+        DisplayMenuHeader()
+        value = input('')
+        if value in tab:
+            print("valeur ok")
+            break
 def runSock(flag):
     import socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -9,7 +17,8 @@ def runSock(flag):
     while 1:
         #data = client_socket.recv(512)
         user = AboutUser()
-        auth = user[0] + ":" + user[1] + ":"+ str(flag)
+        passwordCrypt = sha256(user[1].encode()).hexdigest()
+        auth = user[0] + ":" + passwordCrypt + ":"+ str(flag)
         client_socket.send(bytes(auth, encoding= 'utf-8'))
         #client_socket.send(bytes(user[1], encoding= 'utf-8'))
         data = client_socket.recv(512)
@@ -17,7 +26,8 @@ def runSock(flag):
         if data == "200":
             print("Bonjour %s" %(user[0]))
             break
-    DisplayMenuHeader()
+    navigator(client_socket)
+
 
 def displayMenu():
     print("Menu de connexion")

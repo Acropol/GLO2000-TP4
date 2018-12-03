@@ -19,7 +19,7 @@ def runServer(port):
 	print('starting up on {} port {}'.format(*server_address))
 	try:
 		sock.bind(server_address)
-		sock.listen(1)
+		sock.listen(5)
 	except socket.error as e:
 		WriteErrorLog(str(e))
 	while True:
