@@ -6,11 +6,15 @@ from datetime import datetime
 
 def auth(user, password):
 	if os.path.isdir(user):
-		print("User Found")
-		config = open(user + "/" + "config.txt", "r")
+		try:
+      		config = open(user + "/" + "config.txt", "r")
+    	except IOError:
+			return False
 		passwordBDD = config.readline()
 		if password == passwordBDD:
 			return True
+		else:
+			return False
 	return False
 
 def register(user, password):
