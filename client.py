@@ -1,33 +1,34 @@
 import argparse
 import socket
 import smtplib
+import getpass
 from email.mime.text import MIMEText
 
-#action de depart.
-x = input('1. se connecter \n'
-          '2. Creer un compte')
 
-if x == 1:
-    #...
+def displayMenu():
+    print("Menu de connexion")
+    print("1. Se connecter")
+    print("2. Creer un compte")
 
-else:
-    #...
+def AboutUser():
+    username = input('Utilisateur : ')
+    password = getpass.getpass('Password : ')
 
-#envoie courriel.
+def Login():
+    AboutUser()
 
-rcptto = input('Rcpt to : ')
-subject = input('Subject')
+def AddUser():
+    AboutUser()
 
-print('Data : ')
-text = ""
-temp = input()
-while temp != ".":
-    text += temp + "\n"
-    temp = input()
-
-msg = MIMEText(text)
-#msg["From"] = client.adresse
-msg['To'] = rcptto
-msg['Subject'] = subject
-
-
+if __name__ == '__main__':
+    flag = 42
+    while flag != 1 and flag != 2:
+        displayMenu()
+        try:
+            flag = int(input(''))
+        except Exception as ex:
+            flag = 42
+    if flag == 1:
+        Login()
+    else:
+        AddUser()
