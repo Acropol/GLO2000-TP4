@@ -5,18 +5,19 @@ from datetime import datetime
 
 def auth(user, password):
 	print("on check le login")
+	return False
 
 def register(user, password):
 	print("on cree le user")
-
+	return True
+	
 def checkInfo(login):
 	login = login.decode("utf-8")
 	login = login.split(":")
 	if login[2] == "1":
-		auth(login[0], login[1])
+		return auth(login[0], login[1])
 	else:
-		register(login[0], login[1])
-	return True
+		return register(login[0], login[1])
 
 def runServer(port):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
