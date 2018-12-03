@@ -10,7 +10,7 @@ def auth(user, password):
 def register(user, password):
 	print("on cree le user")
 	return True
-	
+
 def checkInfo(login):
 	login = login.decode("utf-8")
 	login = login.split(":")
@@ -28,6 +28,7 @@ def runServer(port):
 		sock.listen(5)
 	except socket.error as e:
 		WriteLog(str(e))
+		sys.exit(84)
 	while True:
 		print('waiting for a connection')
 		auth = 0
@@ -40,6 +41,8 @@ def runServer(port):
 				if not login:
 					break
 				auth = checkInfo(login)
+				if auth == False:
+					connection.send(bytes("403", encoding= 'utf-8'))
 			print("Utilisateur connecte")
 			connection.send(bytes("200", encoding= 'utf-8'))
 			while(True):
