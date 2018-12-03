@@ -4,14 +4,9 @@ import sys
 
 from datetime import datetime
 
-def send_msg(socket, message):
-	message = message.encode()
-	socket.sendall(message)
-
 def checkInfo(login):
 	login = login.decode("utf-8")
 	login = login.split(":")
-	print("login = %s" %(login[2]))
 	if login[2] == "1":
 		print ("login")
 	else:
@@ -39,8 +34,8 @@ def runServer(port):
 				if not login:
 					break
 				auth = checkInfo(login)
-			print("AUTH")
-				#connection.send(bytes("200", encoding= 'utf-8'))
+			print("Utilisateur connecte")
+			connection.send(bytes("200", encoding= 'utf-8'))
 		finally:
 			connection.close()
 

@@ -13,15 +13,23 @@ def runSock(flag):
         client_socket.send(bytes(auth, encoding= 'utf-8'))
         #client_socket.send(bytes(user[1], encoding= 'utf-8'))
         data = client_socket.recv(512)
-        #if flag == 1:
-        #    Login()
-        #else:
-        #    AddUser()
+        data = data.decode("utf-8")
+        if data == "200":
+            print("Bonjour %s" %(user[0]))
+            break
+    DisplayMenuHeader()
 
 def displayMenu():
     print("Menu de connexion")
     print("1. Se connecter")
     print("2. Creer un compte")
+
+def DisplayMenuHeader():
+    print("Menu principal")
+    print("1. Envoi de courriels")
+    print("2. Consultation de courriels")
+    print("3. Statistiques")
+    print("4. Quitter")
 
 def AboutUser():
     login = []
