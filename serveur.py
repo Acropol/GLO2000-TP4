@@ -16,10 +16,10 @@ def getFolderSize(listFiles, user):
 	return total_size
 
 def sendEmail(user,connection):
-	print (user)
+	print(user)
 
 def getEmail(user, connection):
-	print (user)
+	print(user)
 
 def getStatistic(user, connection):
 	onlyfiles = next(os.walk(user))[2]
