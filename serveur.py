@@ -47,8 +47,8 @@ def register(user, password):
 	if user == "":
 		return False
 	try:
-    	os.mkdir(user, 755);
-	except
+		os.mkdir(user, 755)
+	except:
 		return False
 	config = open(user + "/" + "config.txt", "w")
 	config.write(password)
