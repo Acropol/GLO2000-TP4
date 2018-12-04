@@ -38,6 +38,8 @@ def register(user, password):
 def checkInfo(login):
 	login = login.decode("utf-8")
 	login = login.split(":")
+	if len(login) != 3:
+		return False
 	if login[2] == "1":
 		return auth(login[0], login[1])
 	else:
@@ -64,22 +66,23 @@ def runServer(port):
 				print(login)
 				if not login:
 					break
+				tabUser = []
 				auth = checkInfo(login)
 				if auth == False:
 					connection.send(bytes("403", encoding= 'utf-8'))
 			print("Utilisateur connecte")
 			connection.send(bytes("200", encoding= 'utf-8'))
 			while(True):
+				UserSession = login.decode("utf-8").split(":")[0]
 				data = connection.recv(1024).decode("utf-8")
 				if data == '1':
-					sendEmail(login[0])
+					sendEmail(UserSession, connection)
 				elif data == '2':
-					getEmail(login[0])
+					getEmail(UserSession, connection)
 				elif data == "3":
-					getStatistic(login[0])
+					getStatistic(UserSession, connection)
 				else:
 					break
-				print (data)
 		finally:
 			connection.close()
 
@@ -103,6 +106,7 @@ def WriteLog(msg, type=0, display=1, exit=0):
 
 
 if __name__ == "__main__":
+
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-p", "--port", action="store", dest="port", type=int, default=8080)
 	port = vars(parser.parse_args())["port"]
