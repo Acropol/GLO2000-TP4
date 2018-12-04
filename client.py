@@ -4,6 +4,18 @@ import sys
 from hashlib import sha256
 import argparse
 
+
+def sendEmail():
+	print("send")
+
+def getEmail():
+	print("get")
+
+def getStatistic(data):
+	print("statistic")
+	data = data.decode("utf-8")
+
+
 def navigator(client_socket):
 	while True:
 		tab = ['1', '2', '3']
@@ -21,8 +33,13 @@ def navigator(client_socket):
 		except:
 			sys.exit(0)
 		data = client_socket.recv(512)
-		print (data)
-		
+		if value == '1':
+			sendEmail()
+		elif value == '2':
+			getEmail()
+		elif value == "3":
+			getStatistic(data)
+
 def runSock(flag, port):
 	try:
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

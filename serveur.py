@@ -5,12 +5,10 @@ import os
 from os.path import getsize
 from datetime import datetime
 
-
 def getFolderSize(listFiles, user):
 	total_size = 0
 
 	for item in listFiles:
-		print(user + "/" + item)
 		try:
 			total_size += getsize(user + "/" + item)
 		except socket.error as e:
@@ -27,7 +25,8 @@ def getStatistic(user, connection):
 	onlyfiles = next(os.walk(user))[2]
 	nbfiles = str(len(onlyfiles) - 1)
 	size = getFolderSize(onlyfiles, user)
-	
+	arrayfilestr = ",".join(str(x) for x in onlyfiles)
+	connection.send(bytes(str(size) + ":" + str(nbfiles) + ":" + arrayfilestr , encoding= 'utf-8'))
 
 def auth(user, password):
 	if os.path.isdir(user):
@@ -99,6 +98,7 @@ def runServer(port):
 					getStatistic(UserSession, connection)
 				else:
 					break
+				data = connection.recv(1024).decode("utf-8")
 		finally:
 			connection.close()
 
