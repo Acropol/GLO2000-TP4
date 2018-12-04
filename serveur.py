@@ -16,7 +16,13 @@ def getFolderSize(listFiles, user):
 	return total_size
 
 def sendEmail(user,connection):
+	destinataire = connection.recv(1024).decode("utf-8")
+	sujet = connection.recv(1024).decode("utf-8")
+	corps = connection.recv(1024).decode("utf-8")
 	print(user)
+	print(destinataire)
+	print(sujet)
+	print(corps)
 
 def getEmail(user, connection):
 	print(user)
