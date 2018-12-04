@@ -111,7 +111,7 @@ def runServer(port):
 					getStatistic(UserSession, connection)
 				else:
 					break
-				data = connection.recv(1024).decode("utf-8")
+				#data = connection.recv(1024).decode("utf-8")
 		finally:
 			connection.close()
 
