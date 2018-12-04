@@ -7,7 +7,13 @@ from os.path import getsize
 from datetime import datetime
 
 def init():
-	printf("****INIT SERVEUR****")
+	print("****INIT SERVEUR****")
+	if not os.path.isdir("./DESTERREUR"):
+		try:
+			os.makedirs("DESTERREUR")
+		except:
+			print("Check [KO]")
+			sys.exit(84)
 	print("Check [OK]")
 
 def getFolderSize(listFiles, user):
@@ -106,13 +112,15 @@ def runServer(port):
 	global message
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_address = ("0.0.0.0", port)
-	print('starting up on {} port {}'.format(*server_address))
+	print("****RUNNING SERVEUR****")
+
 	try:
 		sock.bind(server_address)
 		sock.listen(5)
 	except socket.error as e:
 		WriteLog(str(e))
 		sys.exit(84)
+	print('starting up on {} port {}'.format(*server_address))
 	while True:
 		print('waiting for a connection')
 		auth = 0
