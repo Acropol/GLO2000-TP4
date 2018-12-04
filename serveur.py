@@ -6,6 +6,10 @@ import re
 from os.path import getsize
 from datetime import datetime
 
+def init():
+	printf("****INIT SERVEUR****")
+	print("Check [OK]")
+
 def getFolderSize(listFiles, user):
 	total_size = 0
 
@@ -87,9 +91,11 @@ def register(user, password):
 	return True
 
 def checkInfo(login):
+	global message
 	login = login.decode("utf-8")
 	login = login.split(":")
 	if len(login) != 3:
+		message = "Requette incorrect"
 		return False
 	if login[2] == "1":
 		return auth(login[0], login[1])
@@ -161,9 +167,9 @@ def WriteLog(msg, type=0, display=1, exit=0):
 message = ""
 
 if __name__ == "__main__":
-	
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-p", "--port", action="store", dest="port", type=int, default=8080)
 	port = vars(parser.parse_args())["port"]
+	init()
 	runServer(port)
 	sys.exit(0)

@@ -20,7 +20,7 @@ def getStatistic(data):
 		return
 	files = data[2].split(",")
 	print("%s courriels dans la boite de reception" %(len(files)))
-	print("%sMO utilise" %(data[0]))
+	print("Utilisation de la boite de reception : %sMO" %(data[0]))
 
 	if len(files) == 1 and files[0] == '':
 		print ("Vous n'avez pas de courriels")
