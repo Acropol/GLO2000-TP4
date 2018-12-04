@@ -44,6 +44,8 @@ def auth(user, password):
 def register(user, password):
 	if os.path.isdir(user):
 		return False
+	if user == "":
+		return False
 	os.mkdir(user, 755);
 	config = open(user + "/" + "config.txt", "w")
 	config.write(password)
