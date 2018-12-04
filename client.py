@@ -6,7 +6,12 @@ import argparse
 
 
 def sendEmail():
-	print("send")
+	destination = input("Destinataire : ")
+	client_socket.send(bytes(destination, encoding='utf-8'))
+	sujet = input("Sujet : ")
+	client_socket.send(bytes(sujet, encoding='utf-8'))
+	corps = input("Corps : ")
+	client_socket.send(bytes(corps, encoding='utf-8'))
 
 def getEmail():
 	print("get")
