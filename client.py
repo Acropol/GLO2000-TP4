@@ -49,6 +49,9 @@ def navigator(client_socket):
 					client_socket.send(bytes(email, encoding='utf-8'))
 				except:
 					sys.exit(0)
+				data = client_socket.recv(512).decode("utf-8").split(':')
+				if len(data) > 1:
+					print(data[1])
 			elif value == '2':
 				getEmail()
 			elif value == "3":

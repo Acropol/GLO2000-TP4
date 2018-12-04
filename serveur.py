@@ -26,13 +26,25 @@ def getFolderSize(listFiles, user):
 			total_size += 0
 	return total_size
 
+def sendHome(dest):
+	print("sending home")
+	return "200:Message transmit"
+
+def SendExternal(dest):
+	print("Sending external via smtp")
+	return "200:Message transmit"
+
 def sendEmail(user,connection):
 	data = connection.recv(1024).decode("utf-8").split(':')
 	if len(data) != 3:
 		return "501:Impossible d'envoyer le message"
-	print (data)
-	print(user)
-	return "200:Message envoyé"
+	check = re.search('[^@]+@[^@]+\.[^@]+', data[0])
+	if not check:
+		return "400:Format Email incorrect"
+	if "@reseauglo.ca" in user:
+		return sendHome(data[0])
+	else:
+		return SendExternal(data[0])
 
 def getEmail(user, connection):
 	print(user)
@@ -143,7 +155,9 @@ def runServer(port):
 				UserSession = login.decode("utf-8").split(":")[0]
 				data = connection.recv(1024).decode("utf-8")
 				if data == '1':
-					sendEmail(UserSession, connection)
+					response = sendEmail(UserSession, connection)
+					print(response)
+					connection.send(bytes(response, encoding= 'utf-8'))
 				elif data == '2':
 					getEmail(UserSession, connection)
 				elif data == "3":
