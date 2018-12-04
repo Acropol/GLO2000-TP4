@@ -62,6 +62,9 @@ def register(user, password):
 	if not check:
 		message = "Format Email incorrect"
 		return False
+	if not "@reseauglo.ca" in user:
+		message = "Email incorrect, elle doit contenir @reseauglo.ca"
+		return False
 	if os.path.isdir(user):
 		message = "L'utilisateur " + user + " existe deja"
 		return False
