@@ -12,9 +12,11 @@ def getEmail():
 	print("get")
 
 def getStatistic(data):
-	print("statistic")
 	data = data.decode("utf-8")
-
+	data = data.split(":")
+	files = data[2].split(",")
+	print("%s courriels dans la boite de reception" %(len(files)))
+	print("%sMO utilise" %(data[0]))
 
 def navigator(client_socket):
 	while True:
