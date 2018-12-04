@@ -31,20 +31,19 @@ def navigator(client_socket):
 			client_socket.close()
 			sys.exit(0)
 		if value in tab:
-			break
-
-	while True:
-		try:
-			client_socket.send(bytes(value, encoding= 'utf-8'))
-		except:
-			sys.exit(0)
-		data = client_socket.recv(512)
-		if value == '1':
-			sendEmail()
-		elif value == '2':
-			getEmail()
-		elif value == "3":
-			getStatistic(data)
+			try:
+				client_socket.send(bytes(value, encoding='utf-8'))
+			except:
+				sys.exit(0)
+			if value == '1':
+				sendEmail()
+			elif value == '2':
+				getEmail()
+			elif value == "3":
+				data = client_socket.recv(512)
+				getStatistic(data)
+		else:
+			print("Commande invalide")
 
 def runSock(flag, port):
 	try:
