@@ -16,13 +16,12 @@ def getFolderSize(listFiles, user):
 	return total_size
 
 def sendEmail(user,connection):
-	destinataire = connection.recv(1024).decode("utf-8")
-	sujet = connection.recv(1024).decode("utf-8")
-	corps = connection.recv(1024).decode("utf-8")
+	data = connection.recv(1024).decode("utf-8").split(':')
+	if len(data) != 3:
+		return "501:Impossible d'envoyer le message"
+	print (data)
 	print(user)
-	print(destinataire)
-	print(sujet)
-	print(corps)
+	return "200:Message envoyé"
 
 def getEmail(user, connection):
 	print(user)

@@ -7,11 +7,13 @@ import argparse
 
 def sendEmail():
 	destination = input("Destinataire : ")
-	client_socket.send(bytes(destination, encoding='utf-8'))
+	#client_socket.send(bytes(destination, encoding='utf-8'))
 	sujet = input("Sujet : ")
-	client_socket.send(bytes(sujet, encoding='utf-8'))
+	#client_socket.send(bytes(sujet, encoding='utf-8'))
 	corps = input("Corps : ")
-	client_socket.send(bytes(corps, encoding='utf-8'))
+
+	return  destination + ":" + sujet + ":" + corps
+	#client_socket.send(bytes(corps, encoding='utf-8'))
 
 def getEmail():
 	print("get")
@@ -41,7 +43,11 @@ def navigator(client_socket):
 			except:
 				sys.exit(0)
 			if value == '1':
-				sendEmail()
+				email = sendEmail()
+				try:
+					client_socket.send(bytes(email, encoding='utf-8'))
+				except:
+					sys.exit(0)
 			elif value == '2':
 				getEmail()
 			elif value == "3":
