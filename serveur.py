@@ -4,6 +4,15 @@ import sys
 import os
 from datetime import datetime
 
+def sendEmail(user):
+	print (user)
+
+def getEmail(user):
+	print (user)
+
+def getStatistic(user):
+	print (user)
+
 def auth(user, password):
 	if os.path.isdir(user):
 		try:
@@ -63,11 +72,11 @@ def runServer(port):
 			while(True):
 				data = connection.recv(1024).decode("utf-8")
 				if data == '1':
-					print("ok")
+					sendEmail(login[0])
 				elif data == '2':
-					print("ok2")
+					getEmail(login[0])
 				elif data == "3":
-					print("ok3")
+					getStatistic(login[0])
 				else:
 					break
 				print (data)

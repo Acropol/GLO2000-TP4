@@ -14,8 +14,8 @@ def navigator(client_socket):
 			sys.exit(0)
 		if value in tab:
 			break
+
 	while True:
-		print("ok")
 		try:
 			client_socket.send(bytes(value, encoding= 'utf-8'))
 		except:
