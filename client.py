@@ -21,10 +21,14 @@ def getStatistic(data):
 	files = data[2].split(",")
 	print("%s courriels dans la boite de reception" %(len(files)))
 	print("%sMO utilise" %(data[0]))
-	i = 1
-	for item in files:
-		print ("Courriel %d [SUJET] => %s" %(i, item))
-		i += 1
+
+	if len(files) == 1 and files[0] == '':
+		print ("Vous n'avez pas de courriels")
+	else:
+		i = 1
+		for item in files:
+			print ("Courriel %d [SUJET] => %s" %(i, item))
+			i += 1
 
 def navigator(client_socket):
 	while True:
