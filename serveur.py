@@ -2,6 +2,7 @@ import argparse
 import socket
 import sys
 import os
+import re
 from os.path import getsize
 from datetime import datetime
 
@@ -36,26 +37,39 @@ def getStatistic(user, connection):
 	connection.send(bytes(str(size) + ":" + str(nbfiles) + ":" + arrayfilestr , encoding= 'utf-8'))
 
 def auth(user, password):
+	global message
 	if os.path.isdir(user):
 		try:
 			config = open(user + "/" + "config.txt", "r")
 		except IOError:
+			message = "Impossible d'acceder au fichier de configuration de l'utilisateur"
 			return False
 		passwordBDD = config.readline()
 		if password == passwordBDD:
 			return True
 		else:
+			message = "Identifiant non valide"
 			return False
+	message = "Identifiant non valide"
 	return False
 
 def register(user, password):
-	if os.path.isdir(user):
-		return False
+	global message
 	if user == "":
+		message = "Le nom d'utilisateur ne doit pas etre vide"
+		return False
+	check = re.search('[^@]+@[^@]+\.[^@]+', user)
+	if not check:
+		message = "Format Email incorrect"
+		return False
+	if os.path.isdir(user):
+		message = "L'utilisateur " + user + " existe deja"
 		return False
 	try:
 		os.mkdir(user, 755)
 	except:
+		message = "Impossible de creer l'utilisateur"
+		print(message)
 		return False
 	config = open(user + "/" + "config.txt", "w")
 	config.write(password)
@@ -93,12 +107,13 @@ def runServer(port):
 				print(login)
 				if not login:
 					break
-				tabUser = []
+
 				auth = checkInfo(login)
+				print(message)
 				if auth == False:
-					connection.send(bytes("403", encoding= 'utf-8'))
+					connection.send(bytes("403:"+message, encoding= 'utf-8'))
 			print("Utilisateur connecte")
-			connection.send(bytes("200", encoding= 'utf-8'))
+			connection.send(bytes("200:"+message, encoding= 'utf-8'))
 			while(True):
 				UserSession = login.decode("utf-8").split(":")[0]
 				data = connection.recv(1024).decode("utf-8")
@@ -132,6 +147,7 @@ def WriteLog(msg, type=0, display=1, exit=0):
 	if exit:
 		sys.exit(84)
 
+message = "Success"
 
 if __name__ == "__main__":
 

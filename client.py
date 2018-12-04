@@ -7,13 +7,10 @@ import argparse
 
 def sendEmail():
 	destination = input("Destinataire : ")
-	#client_socket.send(bytes(destination, encoding='utf-8'))
 	sujet = input("Sujet : ")
-	#client_socket.send(bytes(sujet, encoding='utf-8'))
 	corps = input("Corps : ")
-
 	return  destination + ":" + sujet + ":" + corps
-	#client_socket.send(bytes(corps, encoding='utf-8'))
+
 
 def getEmail():
 	print("get")
@@ -70,11 +67,11 @@ def runSock(flag, port):
 		auth = user[0] + ":" + passwordCrypt + ":"+ str(flag)
 		client_socket.send(bytes(auth, encoding= 'utf-8'))
 		data = client_socket.recv(512)
-		data = data.decode("utf-8")
-		if data == "200":
+		data = data.decode("utf-8").split(':')
+		if data[0] == "200":
 			print("Bonjour %s" %(user[0]))
 			break
-		print("Login Incorrect")
+		print(data[1])
 	navigator(client_socket)
 
 
