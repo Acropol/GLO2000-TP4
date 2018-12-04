@@ -23,9 +23,11 @@ def getEmail(user, connection):
 
 def getStatistic(user, connection):
 	onlyfiles = next(os.walk(user))[2]
-	nbfiles = str(len(onlyfiles) - 1)
+	onlyfiles.remove('config.txt')
+	nbfiles = str(len(onlyfiles))
 	size = getFolderSize(onlyfiles, user)
 	arrayfilestr = ",".join(str(x) for x in onlyfiles)
+
 	connection.send(bytes(str(size) + ":" + str(nbfiles) + ":" + arrayfilestr , encoding= 'utf-8'))
 
 def auth(user, password):
