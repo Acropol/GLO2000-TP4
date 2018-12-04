@@ -2,16 +2,32 @@ import argparse
 import socket
 import sys
 import os
+from os.path import getsize
 from datetime import datetime
 
-def sendEmail(user):
+
+def getFolderSize(listFiles, user):
+	total_size = 0
+
+	for item in listFiles:
+		print(user + "/" + item)
+		try:
+			total_size += getsize(user + "/" + item)
+		except socket.error as e:
+			total_size += 0
+	return total_size
+
+def sendEmail(user,connection):
 	print (user)
 
-def getEmail(user):
+def getEmail(user, connection):
 	print (user)
 
-def getStatistic(user):
-	print (user)
+def getStatistic(user, connection):
+	onlyfiles = next(os.walk(user))[2]
+	nbfiles = str(len(onlyfiles) - 1)
+	size = getFolderSize(onlyfiles, user)
+	
 
 def auth(user, password):
 	if os.path.isdir(user):

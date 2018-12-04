@@ -21,6 +21,8 @@ def navigator(client_socket):
 		except:
 			sys.exit(0)
 		data = client_socket.recv(512)
+		print (data)
+		
 def runSock(flag, port):
 	try:
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -30,12 +32,10 @@ def runSock(flag, port):
 		sys.exit(42)
 
 	while 1:
-		#data = client_socket.recv(512)
 		user = AboutUser()
 		passwordCrypt = sha256(user[1].encode()).hexdigest()
 		auth = user[0] + ":" + passwordCrypt + ":"+ str(flag)
 		client_socket.send(bytes(auth, encoding= 'utf-8'))
-		#client_socket.send(bytes(user[1], encoding= 'utf-8'))
 		data = client_socket.recv(512)
 		data = data.decode("utf-8")
 		if data == "200":
