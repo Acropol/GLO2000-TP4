@@ -69,14 +69,21 @@ def register(user, password):
 		message = "L'utilisateur " + user + " existe deja"
 		return False
 	try:
-		os.mkdir(user, 755)
+		os.makedirs(user)
 	except:
 		message = "Impossible de creer l'utilisateur"
 		print(message)
 		return False
-	config = open(user + "/" + "config.txt", "w")
-	config.write(password)
-	config.close()
+	try:
+		path = user + "/" + "config.txt"
+		print (path)
+		config = open(path, "w")
+		config.write(password)
+		config.close()
+	except:
+		message = "Impossible d'ouvrir le fichier de configuration utilisateur"
+		print(message)
+		return False
 	return True
 
 def checkInfo(login):
@@ -90,6 +97,7 @@ def checkInfo(login):
 		return register(login[0], login[1])
 
 def runServer(port):
+	global message
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_address = ("0.0.0.0", port)
 	print('starting up on {} port {}'.format(*server_address))
@@ -106,11 +114,11 @@ def runServer(port):
 		try:
 			print('connection from', client_address)
 			while True and auth == 0:
+				message = "Success"
 				login = connection.recv(1024)
 				print(login)
 				if not login:
 					break
-
 				auth = checkInfo(login)
 				print(message)
 				if auth == False:
@@ -150,10 +158,10 @@ def WriteLog(msg, type=0, display=1, exit=0):
 	if exit:
 		sys.exit(84)
 
-message = "Success"
+message = ""
 
 if __name__ == "__main__":
-
+	
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-p", "--port", action="store", dest="port", type=int, default=8080)
 	port = vars(parser.parse_args())["port"]

@@ -4,20 +4,20 @@ import sys
 from hashlib import sha256
 import argparse
 
-
 def sendEmail():
 	destination = input("Destinataire : ")
 	sujet = input("Sujet : ")
 	corps = input("Corps : ")
 	return  destination + ":" + sujet + ":" + corps
 
-
 def getEmail():
 	print("get")
 
 def getStatistic(data):
-	data = data.decode("utf-8")
-	data = data.split(":")
+	data = data.decode("utf-8").split(":")
+	if len(data) != 3:
+		print("Erreur lors de la récuperation des données")
+		return
 	files = data[2].split(",")
 	print("%s courriels dans la boite de reception" %(len(files)))
 	print("%sMO utilise" %(data[0]))
