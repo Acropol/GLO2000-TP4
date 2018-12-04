@@ -41,7 +41,7 @@ def sendEmail(user,connection):
 	check = re.search('[^@]+@[^@]+\.[^@]+', data[0])
 	if not check:
 		return "400:Format Email incorrect"
-	if "@reseauglo.ca" in user:
+	if "@reseauglo.ca" in data[0]:
 		return sendHome(data[0])
 	else:
 		return SendExternal(data[0])
