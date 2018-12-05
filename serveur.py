@@ -58,7 +58,12 @@ def sendEmail(user,connection):
 	else:
 		return SendExternal(data, user)
 
-def getEmail(user, connection):
+def getEmail(path, user, connection):
+	listEmail = []
+	for mail in os.listdir(path):
+		if mail != 'config.txt':
+			listEmail.append(mail)
+	connection.send(bytes(listEmail, encoding='utf-8'))
 	print(user)
 
 def getStatistic(user, connection):
@@ -171,7 +176,9 @@ def runServer(port):
 					print(response)
 					connection.send(bytes(response, encoding= 'utf-8'))
 				elif data == '2':
-					getEmail(UserSession, connection)
+					path = os.path.dirname(os.path.realpath(__file__))
+					path = path + '/' + UserSession
+					getEmail(path, UserSession, connection)
 				elif data == "3":
 					getStatistic(UserSession, connection)
 				else:
