@@ -26,11 +26,23 @@ def getFolderSize(listFiles, user):
 			total_size += 0
 	return total_size
 
-def sendHome(dest):
-	print("sending home")
-	return "200:Message transmit"
+def writeMail(path, data, user):
+	file = open(path, "w")
+	file.write("[dest]="+data[0]+ "\n")
+	file.write("[src]="+user + "\n")
+	file.write("[content]="+data[2] + "\n")
+	file.close()
 
-def SendExternal(dest):
+def sendHome(data, user):
+	print("sending home")
+	if os.path.isdir(data[0]):
+		writeMail(data[0]+"/"+data[1], data, user)
+		return "200:Message transmit"
+	else:
+		writeMail("DESTERREUR/"+data[1], data, user)
+		return "404:Utilisateur " + data[0] + " inconnu"
+
+def SendExternal(dest, user):
 	print("Sending external via smtp")
 	return "200:Message transmit"
 
@@ -42,9 +54,9 @@ def sendEmail(user,connection):
 	if not check:
 		return "400:Format Email incorrect"
 	if "@reseauglo.ca" in data[0]:
-		return sendHome(data[0])
+		return sendHome(data, user)
 	else:
-		return SendExternal(data[0])
+		return SendExternal(data, user)
 
 def getEmail(user, connection):
 	print(user)
