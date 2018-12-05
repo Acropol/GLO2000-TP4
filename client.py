@@ -10,7 +10,7 @@ def sendEmail():
 	corps = input("Corps : ")
 	return  destination + ":" + sujet + ":" + corps
 
-def getEmail():
+def getEmail(listemail):
 	print("get")
 
 def getStatistic(data):
@@ -53,7 +53,8 @@ def navigator(client_socket):
 				if len(data) > 1:
 					print(data[1])
 			elif value == '2':
-				getEmail()
+				listemail = client_socket.recv(512).decode("utf-8")
+				getEmail(listeemail)
 			elif value == "3":
 				data = client_socket.recv(512)
 				getStatistic(data)
