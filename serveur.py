@@ -58,14 +58,27 @@ def sendEmail(user,connection):
 	else:
 		return SendExternal(data, user)
 
+def getDataMail(path):
+	try:
+		file = open(path, "r")
+		value = file.read()
+	except IOError:
+		return "400:Erreur lors de la recuperation du mail"
+	return "200:" + value
+
 def getEmail(path, user, connection):
+	tab = []
 	listEmail = "200"
 	for mail in os.listdir(path):
 		if mail != 'config.txt':
 			listEmail += ":" + mail
+			tab.append(mail)
 	print(listEmail)
 	connection.send(bytes(listEmail, encoding='utf-8'))
-	print(user)
+	value = connection.recv(1024).decode("utf-8")
+	value = int(value) - 1
+	contentMail = getDataMail(user + "/" + tab[value])
+	connection.send(bytes(contentMail, encoding='utf-8'))
 
 def getStatistic(user, connection):
 	onlyfiles = next(os.walk(user))[2]

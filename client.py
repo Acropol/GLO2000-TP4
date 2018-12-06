@@ -10,7 +10,7 @@ def sendEmail():
 	corps = input("Corps : ")
 	return  destination + ":" + sujet + ":" + corps
 
-def getEmail(listemail):
+def getEmail(listemail, client_socket):
 	data = listemail.split(":")
 	if len(data)  < 2:
 		print ("Erreur de recuperatio des emails")
@@ -19,7 +19,13 @@ def getEmail(listemail):
 	while (i < len(data)):
 		print ("%d. [SUJET] %s" %(i,data[i]))
 		i += 1
-	value = input("Tapez le numero du mail pour lire le mail")
+	value = input("Tapez le numero du mail pour lire le mail\n")
+	client_socket.send(bytes(value , encoding= 'utf-8'))
+	data = client_socket.recv(512).decode("utf-8").split(':')
+	if len(data) < 2 :
+		print ("Erreur de reception")
+	else:
+		print (data[1])
 
 def getStatistic(data):
 	data = data.decode("utf-8").split(":")
@@ -62,7 +68,7 @@ def navigator(client_socket):
 					print(data[1])
 			elif value == '2':
 				listemail = client_socket.recv(512).decode("utf-8")
-				getEmail(listemail)
+				getEmail(listemail, client_socket)
 			elif value == "3":
 				data = client_socket.recv(512)
 				getStatistic(data)
