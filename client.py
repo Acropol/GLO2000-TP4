@@ -36,7 +36,8 @@ def getStatistic(data):
 		print("Erreur lors de la récuperation des donnees")
 		return
 	files = data[2].split(",")
-	print("%s courriels dans la boite de reception" %(len(files)))
+	if data[0] != '0':
+		print("%s courriels dans la boite de reception" %(len(files)))
 	print("Utilisation de la boite de reception : %s octets" %(data[0]))
 
 	if len(files) == 1 and files[0] == '':
@@ -44,7 +45,7 @@ def getStatistic(data):
 	else:
 		i = 1
 		for item in files:
-			print ("Courriel %d [SUJET] => %s" %(i, item))
+			print ("%d. [SUJET] => %s" %(i, item))
 			i += 1
 	input("Appuyez sur une touche pour revenir au menu principal\n")
 
