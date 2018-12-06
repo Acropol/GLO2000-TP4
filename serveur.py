@@ -3,9 +3,13 @@ import socket
 import sys
 import os
 import re
+import smtplib
+from email.mime.text import MIMEText
+
 from os.path import getsize
 from datetime import datetime
 from hashlib import sha256
+
 
 def init():
 	print("****INIT SERVEUR****")
@@ -43,8 +47,21 @@ def sendHome(data, user):
 		writeMail("DESTERREUR/"+data[1], data, user)
 		return "404:Utilisateur " + data[0] + " inconnu"
 
-def SendExternal(dest, user):
+def SendExternal(data, user):
 	print("Sending external via smtp")
+	print(data)
+	msg = MIMEText(data[2])
+	msg["From"] = user
+	msg["To"] = data[0]
+	msg["Subject"] = data[1]
+
+	try:
+		smtpConnection = smtplib.SMTP(host="smtp.ulaval.ca", timeout=10)
+		smtpConnection.set_debuglevel(1)
+		smtpConnection.sendmail(user, data[0] , msg.as_string())
+		smtpConnection.quit()
+	except:
+		return "400:L’envoi n’a pas pu etre effectue. "
 	return "200:Message transmit"
 
 def sendEmail(user,connection):
