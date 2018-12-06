@@ -93,10 +93,11 @@ def getEmail(path, user, connection):
 			tab.append(mail)
 	print(listEmail)
 	connection.send(bytes(listEmail, encoding='utf-8'))
-	value = connection.recv(1024).decode("utf-8")
-	value = int(value) - 1
-	contentMail = getDataMail(user + "/" + tab[value])
-	connection.send(bytes(contentMail, encoding='utf-8'))
+	if len(tab) != 0:
+		value = connection.recv(1024).decode("utf-8")
+		value = int(value) - 1
+		contentMail = getDataMail(user + "/" + tab[value])
+		connection.send(bytes(contentMail, encoding='utf-8'))
 
 def getStatistic(user, connection):
 	onlyfiles = next(os.walk(user))[2]
