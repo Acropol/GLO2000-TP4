@@ -26,6 +26,7 @@ def getEmail(listemail, client_socket):
 		print ("Erreur de reception")
 	else:
 		print (data[1])
+	input("Appuyez sur une touche pour revenir au menu principal\n")
 
 def getStatistic(data):
 	data = data.decode("utf-8").split(":")
@@ -43,6 +44,7 @@ def getStatistic(data):
 		for item in files:
 			print ("Courriel %d [SUJET] => %s" %(i, item))
 			i += 1
+	input("Appuyez sur une touche pour revenir au menu principal\n")
 
 def navigator(client_socket):
 	while True:
