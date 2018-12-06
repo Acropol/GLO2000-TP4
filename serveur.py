@@ -59,10 +59,11 @@ def sendEmail(user,connection):
 		return SendExternal(data, user)
 
 def getEmail(path, user, connection):
-	listEmail = []
+	listEmail = "200"
 	for mail in os.listdir(path):
 		if mail != 'config.txt':
-			listEmail.append(mail)
+			listEmail += ":" + mail
+	print(listEmail)
 	connection.send(bytes(listEmail, encoding='utf-8'))
 	print(user)
 
