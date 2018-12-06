@@ -31,7 +31,7 @@ def getEmail(listemail, client_socket):
 def getStatistic(data):
 	data = data.decode("utf-8").split(":")
 	if len(data) != 3:
-		print("Erreur lors de la récuperation des données")
+		print("Erreur lors de la récuperation des donnees")
 		return
 	files = data[2].split(",")
 	print("%s courriels dans la boite de reception" %(len(files)))
@@ -61,6 +61,7 @@ def navigator(client_socket):
 				sys.exit(0)
 			if value == '1':
 				email = sendEmail()
+				print ("Patientez svp : cela pourrai prendre plusieurs secondes")
 				try:
 					client_socket.send(bytes(email, encoding='utf-8'))
 				except:

@@ -56,7 +56,7 @@ def SendExternal(data, user):
 	msg["Subject"] = data[1]
 
 	try:
-		smtpConnection = smtplib.SMTP(host="smtp.ulaval.ca", timeout=10)
+		smtpConnection = smtplib.SMTP(host="smtp.ulaval.ca", timeout=5)
 		smtpConnection.set_debuglevel(1)
 		smtpConnection.sendmail(user, data[0] , msg.as_string())
 		smtpConnection.quit()
