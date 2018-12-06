@@ -1,7 +1,7 @@
 import socket
 import getpass
 import sys
-from hashlib import sha256
+
 import argparse
 
 def sendEmail():
@@ -87,8 +87,9 @@ def runSock(flag, port):
 
 	while 1:
 		user = AboutUser()
-		passwordCrypt = sha256(user[1].encode()).hexdigest()
-		auth = user[0] + ":" + passwordCrypt + ":"+ str(flag)
+		#passwordCrypt = sha256(user[1].encode()).hexdigest()
+		#auth = user[0] + ":" + passwordCrypt + ":"+ str(flag)
+		auth = user[0] + ":" + user[1] + ":"+ str(flag)
 		client_socket.send(bytes(auth, encoding= 'utf-8'))
 		data = client_socket.recv(512)
 		data = data.decode("utf-8").split(':')

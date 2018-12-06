@@ -5,6 +5,7 @@ import os
 import re
 from os.path import getsize
 from datetime import datetime
+from hashlib import sha256
 
 def init():
 	print("****INIT SERVEUR****")
@@ -106,7 +107,7 @@ def auth(user, password):
 	message = "Identifiant non valide"
 	return False
 
-def register(user, password):
+def register(user, password, passwordCrypt):
 	global message
 	if user == "":
 		message = "Le nom d'utilisateur ne doit pas etre vide"
@@ -121,6 +122,10 @@ def register(user, password):
 	if os.path.isdir(user):
 		message = "L'utilisateur " + user + " existe deja"
 		return False
+	test = re.search('^(?=.*?[a-zA-Z])(?=.*?[0-9]).{6,12}$', password)
+	if not test:
+		message = "Mot de passe incorrect (au moin 1 majuscule + 1 chiffre et [6-12] caracteres)"
+		return False
 	try:
 		os.makedirs(user)
 	except:
@@ -131,7 +136,7 @@ def register(user, password):
 		path = user + "/" + "config.txt"
 		print (path)
 		config = open(path, "w")
-		config.write(password)
+		config.write(passwordCrypt)
 		config.close()
 	except:
 		message = "Impossible d'ouvrir le fichier de configuration utilisateur"
@@ -143,13 +148,14 @@ def checkInfo(login):
 	global message
 	login = login.decode("utf-8")
 	login = login.split(":")
+	passwordCrypt = sha256(login[1].encode()).hexdigest()
 	if len(login) != 3:
 		message = "Requette incorrect"
 		return False
 	if login[2] == "1":
-		return auth(login[0], login[1])
+		return auth(login[0], passwordCrypt)
 	else:
-		return register(login[0], login[1])
+		return register(login[0], login[1], passwordCrypt)
 
 def runServer(port):
 	global message
